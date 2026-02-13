@@ -27,4 +27,29 @@ application {
     mainClass.set("com.robertoalonso.tema4gradle.Main")
 }
 
+val isWindows = System.getProperty("os.name").lowercase().contains("windows")
 
+val ollamaVersion by tasks.registering(Exec::class) {
+    if (isWindows) {
+        commandLine("powershell", "-NoProfile", "-Command", "ollama --version")
+    } else {
+        commandLine("sh", "-c", "ollama --version")
+    }
+}
+
+val ollamaPs by tasks.registering(Exec::class) {
+    if (isWindows) {
+        commandLine("powershell", "-NoProfile", "-Command", "ollama ps")
+    } else {
+        commandLine("sh", "-c", "ollama ps")
+    }
+    standardOutput = System.out
+    errorOutput = System.err
+}
+
+val llmInfo by tasks.registering {
+    dependsOn(ollamaVersion, ollamaPs)
+    doLast {
+        println("Demo finalizada")
+    }
+}
