@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "com.robertoalonso.tema4gradle"
@@ -20,6 +21,10 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("com.robertoalonso.tema4gradle.Main")
 }
 
 
